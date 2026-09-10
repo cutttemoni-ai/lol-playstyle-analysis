@@ -1,0 +1,63 @@
+{
+  "metadata": {
+    "matchId": "KR_123456789",
+    "participants": ["target-puuid", "other-puuid"]
+  },
+  "info": {
+    "gameStartTimestamp": 1720000000000,
+    "gameDuration": 1800,
+    "gameMode": "CLASSIC",
+    "gameType": "MATCHED_GAME",
+    "gameVersion": "16.17.1.1",
+    "mapId": 11,
+    "platformId": "KR",
+    "queueId": 420,
+    "participants": [
+      {
+        "participantId": 1,
+        "puuid": "target-puuid",
+        "riotIdGameName": "Test Player",
+        "summonerId": "summoner-1",
+        "summonerLevel": 100,
+        "championId": 103,
+        "championName": "Ahri",
+        "teamId": 100,
+        "win": true,
+        "individualPosition": "MIDDLE",
+        "teamPosition": "MIDDLE",
+        "lane": "MIDDLE",
+        "role": "SOLO",
+        "kills": 8,
+        "deaths": 2,
+        "assists": 7,
+        "goldEarned": 12000,
+        "goldSpent": 11000,
+        "totalDamageDealt": 100000,
+        "totalDamageDealtToChampions": 25000,
+        "visionScore": 20,
+        "wardsPlaced": 8,
+        "wardsKilled": 2,
+        "visionWardsBoughtInGame": 1,
+        "item0": 1001
+      },
+      {
+        "participantId": 2,
+        "puuid": "other-puuid",
+        "summonerName": "Legacy Name",
+        "summonerId": "summoner-2",
+        "summonerLevel": 80,
+        "championId": 266,
+        "championName": "Aatrox",
+        "teamId": 200,
+        "win": false,
+        "individualPosition": "TOP",
+        "teamPosition": "TOP",
+        "lane": "TOP",
+        "role": "SOLO",
+        "kills": 2,
+        "deaths": 8,
+        "assists": 3
+      }
+    ]
+  }
+}

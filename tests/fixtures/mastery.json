@@ -1,0 +1,10 @@
+{
+  "puuid": "fixture-puuid",
+  "championId": 103,
+  "championLevel": 7,
+  "championPoints": 123456,
+  "lastPlayTime": 1767225600000,
+  "championPointsSinceLastLevel": 0,
+  "championPointsUntilNextLevel": 0,
+  "tokensEarned": 2
+}

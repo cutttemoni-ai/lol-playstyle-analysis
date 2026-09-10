@@ -1,0 +1,8 @@
+{
+  "id": "encrypted-summoner-id",
+  "accountId": "encrypted-account-id",
+  "puuid": "target-puuid",
+  "profileIconId": 1,
+  "revisionDate": 1720000000000,
+  "summonerLevel": 100
+}

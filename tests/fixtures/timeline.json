@@ -1,0 +1,35 @@
+{
+  "metadata": {"matchId": "KR_123456789"},
+  "info": {
+    "frames": [
+      {
+        "timestamp": 0,
+        "participantFrames": {
+          "1": {"participantId": 1, "championStats": {"health": 700}},
+          "2": {"participantId": 2, "championStats": {"health": 650}}
+        }
+      },
+      {
+        "timestamp": 1800000,
+        "participantFrames": {
+          "1": {
+            "participantId": 1,
+            "championStats": {
+              "abilityHaste": 30,
+              "abilityPower": 420,
+              "armor": 95,
+              "attackDamage": 110,
+              "health": 1234,
+              "healthMax": 2100,
+              "movementSpeed": 390
+            }
+          },
+          "2": {
+            "participantId": 2,
+            "championStats": {"armor": 150, "health": 900, "healthMax": 3000}
+          }
+        }
+      }
+    ]
+  }
+}

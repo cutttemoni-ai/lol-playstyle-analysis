@@ -1,0 +1,81 @@
+# LoL Playstyle Analysis
+
+Riot API로 입력한 Riot ID의 **한국 서버(KR) 최근 솔로랭크** 데이터를 수집해 분석용 XLSX를 만드는 팀 프로젝트입니다. Match‑V5에서 `queue=420`인 `RANKED_SOLO_5x5` 경기만 최대 20개 가져오며, `KR_`로 시작하는 Match ID만 저장합니다. 한 경기의 참가자 10명을 각각 한 행으로 기록하므로 정상 수집 시 최대 200행입니다.
+
+> `.env`의 Riot API Key, 생성된 XLSX, 원본 JSON과 로그는 절대로 GitHub에 올리지 마세요. 이 저장소의 `.gitignore`가 해당 파일을 제외하지만 commit 전 `git status`를 다시 확인해야 합니다.
+
+## 폴더 구조
+
+```text
+src/riot_api/                     API 클라이언트, 수집기, 파서, 스키마, XLSX 내보내기
+scripts/export_recent_matches.py  실행 진입점
+tests/fixtures/                   외부 호출 없는 테스트용 응답
+tests/                            단위·통합 테스트
+docs/                             API 흐름, 컬럼 정의, 협업 안내
+data/                             결과 저장 위치(결과 파일은 Git 제외)
+.github/                          CI와 Issue/PR 템플릿
+```
+
+## 처음 설치하기
+
+Python 3.11 이상과 Git이 필요합니다. 저장소 주소는 GitHub 저장소 페이지의 **Code** 버튼에서 복사합니다.
+
+```powershell
+git clone <저장소-주소>
+Set-Location lol-playstyle-analysis
+python -m venv .venv
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+.\.venv\Scripts\Activate.ps1
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+Copy-Item .env.example .env
+```
+
+[Riot Developer Portal](https://developer.riotgames.com/)에서 개발용 API Key를 발급받아 `.env`의 등호 뒤에 입력합니다.
+
+```dotenv
+RIOT_API_KEY=RGAPI-발급받은키
+```
+
+개발용 키는 24시간마다 만료될 수 있습니다. 만료되면 Developer Portal에서 새 키를 발급받아 로컬 `.env` 값만 교체합니다. `.env.example`에는 실제 키를 넣지 않습니다.
+
+## 데이터 수집
+
+기본 20경기:
+
+```powershell
+python scripts/export_recent_matches.py --game-name "Hide on bush" --tag-line "KR1" --count 20
+```
+
+출력 위치 지정:
+
+```powershell
+python scripts/export_recent_matches.py --game-name "Hide on bush" --tag-line "KR1" --count 20 --output "data/league_data.xlsx"
+```
+
+기본 결과는 `data/` 아래에 생성됩니다. 지정한 파일이 이미 있으면 `_1`, `_2`를 붙여 원본을 보존합니다. `--save-raw`는 디버깅용 원본 JSON을 저장하지만 해당 폴더도 Git에서 제외됩니다.
+
+XLSX에는 `league_data`, `검색정보`, `컬럼정의서`, `수집오류` 시트가 있습니다. Timeline 실패 시 경기 상세 행은 남고 `final_*`만 비어 있으며, 랭크·숙련도 등 부분 실패는 `수집오류`에 기록됩니다.
+
+## 테스트와 코드 검사
+
+테스트는 fixture와 mock만 사용하며 실제 Riot API나 API Key를 사용하지 않습니다.
+
+```powershell
+python -m pytest
+python -m ruff check .
+```
+
+## 자주 발생하는 오류
+
+- `401`: API Key 형식이 잘못됐습니다. `.env` 값을 다시 복사합니다.
+- `403`: 개발용 Key가 만료됐거나 권한이 없습니다. 새 Key로 `.env`만 교체합니다.
+- `404`: Riot ID, KR 소환사 계정 또는 경기 데이터가 없습니다. 게임 이름과 태그를 확인합니다.
+- `429`: 호출 한도 초과입니다. 수집기가 `Retry-After`만큼 기다린 뒤 최대 3회 재시도합니다.
+- `5xx`: Riot 서비스의 일시 오류입니다. 지수 백오프로 최대 3회 재시도합니다.
+
+브랜치와 Pull Request를 이용한 협업 절차는 [CONTRIBUTING.md](CONTRIBUTING.md)를 참고하세요. API 호출 순서는 [docs/API_FLOW.md](docs/API_FLOW.md), 고정 94개 컬럼은 [docs/COLUMN_DEFINITION.md](docs/COLUMN_DEFINITION.md)에 정리되어 있습니다.
+
+## Riot Games 고지
+
+이 프로젝트는 Riot Games가 보증하거나 후원하지 않습니다. Riot Games 및 관련 자산은 각 소유자의 상표입니다. API 사용 시 Riot Developer Portal의 정책과 약관을 준수하세요.

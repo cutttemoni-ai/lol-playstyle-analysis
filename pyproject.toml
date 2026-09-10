@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lol-playstyle-analysis"
+version = "0.1.0"
+description = "Riot API 기반 KR 솔로랭크 데이터 XLSX 수집기"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+dependencies = [
+  "httpx>=0.27,<1",
+  "pandas>=2.2,<3",
+  "openpyxl>=3.1,<4",
+  "python-dotenv>=1.0,<2",
+  "pydantic>=2.7,<3",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8,<9", "pytest-mock>=3.14,<4", "respx>=0.21,<1", "ruff>=0.6,<1"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+extend-exclude = ["data"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
